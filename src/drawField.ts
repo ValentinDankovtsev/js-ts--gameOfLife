@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * отрисовка поля
  * @param field {number[][]} - состояние поля
@@ -5,11 +6,15 @@
  * @param onCellClick {(x: number, y: number) => void}
  * @returns void
  */
-// @ts-ignore
-export function drawField(htmlElement, field, onCellClick) {
-  const rowIterator = (row, rowIndex) =>
+
+export function drawField(
+  htmlElement: HTMLDivElement,
+  field: number[][],
+  onCellClick: (x: number, y: number) => void
+): void {
+  const rowIterator = (row: number[], rowIndex: number) =>
     `<tr>${row
-      .map((cell, columnIndex) => {
+      .map((cell: number, columnIndex: number) => {
         if (cell === 1) {
           return `<td 
         data-x=${columnIndex}
@@ -30,13 +35,19 @@ export function drawField(htmlElement, field, onCellClick) {
   // eslint-disable-next-line no-param-reassign
   htmlElement.innerHTML = table;
 
-  htmlElement.querySelector("table").addEventListener("click", (ev) => {
-    const clickedElement = ev.target;
-    // @ts-ignore
+  const tableOnHTML = htmlElement.querySelector("table");
+
+  if (!tableOnHTML) {
+    return;
+  }
+
+  tableOnHTML.addEventListener("click", (ev) => {
+    const clickedElement = ev.target as Element;
+
     const x = clickedElement.getAttribute("data-x");
-    // @ts-ignore
+
     const y = clickedElement.getAttribute("data-y");
-    if (x >= 0 && y >= 0) {
+    if (Number(x) >= 0 && Number(y) >= 0) {
       onCellClick(Number(x), Number(y));
     }
   });

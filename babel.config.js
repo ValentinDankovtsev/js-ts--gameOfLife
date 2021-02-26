@@ -6,6 +6,7 @@ module.exports = {
         targets: "defaults",
       },
     ],
+    "@babel/preset-typescript",
   ],
   env: {
     test: {
