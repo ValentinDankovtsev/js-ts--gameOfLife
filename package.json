@@ -48,7 +48,6 @@
   "dependencies": {
     "webpack-dev-server": "^3.11.2"
   },
-  "description": "",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -60,5 +59,6 @@
       "eslint --cache --fix --ext .js,.ts"
     ],
     "*.{css,md}": "prettier --write"
-  }
+  },
+  "description": ""
 }
