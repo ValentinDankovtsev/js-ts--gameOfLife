@@ -20,7 +20,7 @@ export function drawField(
         data-x=${columnIndex}
         data-y=${rowIndex}
         class="cell alive" 
-        style="background-color:#FA58D0; height:10px; width:10px;"></td>`;
+         style="background-color:#FA58D0; height:10px; width:10px;"></td>`;
         }
         return `<td 
       data-x=${columnIndex}
@@ -47,7 +47,7 @@ export function drawField(
     const x = clickedElement.getAttribute("data-x");
 
     const y = clickedElement.getAttribute("data-y");
-    if (Number(x) >= 0 && Number(y) >= 0) {
+    if (Number(x) >= 0 && Number(y) >= 0 && (clickedElement.tagName === 'TD')) {
       onCellClick(Number(x), Number(y));
     }
   });

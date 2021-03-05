@@ -1,3 +1,5 @@
+/* eslint-disable no-cond-assign */
+/* eslint-disable func-names */
 /* eslint-disable no-param-reassign */
 
 import { drawField } from "./drawField";
@@ -11,6 +13,7 @@ import { isAnyoneAlive } from "./isAnyoneAlive";
  * @param htmlElement {HTMLElement} - элемент, в котором будет отрисована игра
  * @returns void
  */
+
 export function createGameOfLife(
   sizeX: number,
   sizeY: number,
@@ -21,14 +24,15 @@ export function createGameOfLife(
 
   // Создать блок для поля
   // Создать кнопку управления игрой
-  htmlElement.innerHTML = `<div class="field-wrapper"></div><button>Start</button>`;
-
+  htmlElement.innerHTML = `<div class="field-wrapper"></div><button>Start</button></div><input type='range' id='speedRangeSlider' name='speedRangeSlider' min='0' max='900' value='300' step='100'><div class="inputSize"><input id='numberX' type='number' min='1' max='100' value='10' step='1'><input id='numberY' type='number' min='1' max='100' value='10' step='1'></div>`;
+  let speed = 800;
   const fieldWrapper = htmlElement.querySelector(
     ".field-wrapper"
   ) as HTMLDivElement;
 
   const button = htmlElement.querySelector("button") as HTMLButtonElement;
-
+  const speedRangeSlider = htmlElement.querySelector("#speedRangeSlider");
+  const inputSize = htmlElement.querySelector(".inputSize");
   // Создать поле заданного размера
   let field = Array.from({ length: sizeY }).map(
     () => Array.from({ length: sizeX }).fill(0) as number[]
@@ -72,8 +76,27 @@ export function createGameOfLife(
         alert("Death on the block");
         stopGame();
       }
-    }, 1000);
+    }, speed);
+
+    speedRangeSlider?.addEventListener("change", (): void => {
+      clearInterval(timer);
+      speed = 1000 - speedRangeSlider.value;
+      startGame();
+    });
   }
+
+  inputSize?.addEventListener("change", (ev) => {
+    ev.preventDefault();
+    const inputX = htmlElement.querySelector("#numberX");
+    const inputY = htmlElement.querySelector("#numberY");
+    sizeX = inputX.value;
+    console.log(sizeX);
+    sizeY = inputY.value;
+    console.log(sizeY);
+    createGameOfLife(sizeX, sizeY, htmlElement);
+    inputX.value = "";
+    inputY.value = "";
+  });
 
   button.addEventListener("click", () => {
     if (!gameIsRunning) {
