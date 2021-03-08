@@ -24,15 +24,17 @@ export function createGameOfLife(
 
   // Создать блок для поля
   // Создать кнопку управления игрой
-  htmlElement.innerHTML = `<div class="field-wrapper"></div><button>Start</button></div><input type='range' id='speedRangeSlider' name='speedRangeSlider' min='0' max='900' value='300' step='100'><div class="inputSize"><input id='numberX' type='number' min='1' max='100' value='10' step='1'><input id='numberY' type='number' min='1' max='100' value='10' step='1'></div>`;
+  htmlElement.innerHTML = `<div class="field-wrapper"></div><button>Start</button></div><input type='range' id='speedRangeSlider' name='speedRangeSlider' min='0' max='900' value='300' step='100'><input id='numberX' type='number' min='1' max='100'  step='1'><input id='numberY' type='number' min='1' max='100'  step='1'><button class='butField'>fieldSize</button>`;
   let speed = 800;
   const fieldWrapper = htmlElement.querySelector(
     ".field-wrapper"
   ) as HTMLDivElement;
 
   const button = htmlElement.querySelector("button") as HTMLButtonElement;
-  const speedRangeSlider = htmlElement.querySelector("#speedRangeSlider");
-  const inputSize = htmlElement.querySelector(".inputSize");
+  const speedRangeSlider = htmlElement.querySelector(
+    "#speedRangeSlider"
+  ) as HTMLInputElement;
+  // const inputSize = htmlElement.querySelector(".inputSize");
   // Создать поле заданного размера
   let field = Array.from({ length: sizeY }).map(
     () => Array.from({ length: sizeX }).fill(0) as number[]
@@ -78,24 +80,21 @@ export function createGameOfLife(
       }
     }, speed);
 
-    speedRangeSlider?.addEventListener("change", (): void => {
+    speedRangeSlider.addEventListener("change", (): void => {
       clearInterval(timer);
-      speed = 1000 - speedRangeSlider.value;
+      const sliderValue = Number(speedRangeSlider.value);
+      speed = 1000 - sliderValue;
       startGame();
     });
   }
 
-  inputSize?.addEventListener("change", (ev) => {
-    ev.preventDefault();
-    const inputX = htmlElement.querySelector("#numberX");
-    const inputY = htmlElement.querySelector("#numberY");
-    sizeX = inputX.value;
-    console.log(sizeX);
-    sizeY = inputY.value;
-    console.log(sizeY);
+  const butField = htmlElement.querySelector(".butField");
+  butField?.addEventListener("click", () => {
+    const inputX = htmlElement.querySelector("#numberX") as HTMLInputElement;
+    const inputY = htmlElement.querySelector("#numberY") as HTMLInputElement;
+    sizeX = Number(inputX.value);
+    sizeY = Number(inputY.value);
     createGameOfLife(sizeX, sizeY, htmlElement);
-    inputX.value = "";
-    inputY.value = "";
   });
 
   button.addEventListener("click", () => {
