@@ -15,8 +15,8 @@ import { isAnyoneAlive } from "./isAnyoneAlive";
  */
 
 export function createGameOfLife(
-  sizeX: number,
-  sizeY: number,
+  sizeX = 10,
+  sizeY = 10,
   htmlElement: HTMLElement
 ): void {
   let gameIsRunning = false;
@@ -24,8 +24,13 @@ export function createGameOfLife(
 
   // Создать блок для поля
   // Создать кнопку управления игрой
-  htmlElement.innerHTML = `<div class="field-wrapper"></div><button>Start</button></div><input type='range' id='speedRangeSlider' name='speedRangeSlider' min='0' max='900' value='300' step='100'><input id='numberX' type='number' min='1' max='100'  step='1'><input id='numberY' type='number' min='1' max='100'  step='1'><button class='butField'>fieldSize</button>`;
+  htmlElement.innerHTML = `<div class="field-wrapper"></div><button>Start</button></div>
+  <input type='range' id='speedRangeSlider' name='speedRangeSlider' min='0' max='900' value='300' step='100'>
+  <input id='numberX' type='number' min='1' max='100' value=${sizeX} step='1'>
+  <input id='numberY' type='number' min='1' max='100' value=${sizeY} step='1'>
+  <button class='butField'>fieldSize</button>`;
   let speed = 800;
+
   const fieldWrapper = htmlElement.querySelector(
     ".field-wrapper"
   ) as HTMLDivElement;
@@ -41,7 +46,7 @@ export function createGameOfLife(
   );
 
   const cellClickHandler = (x: number, y: number) => {
-    field[y][x] = field[y][x] === 0 ? 1 : 0;
+    field[y][x] = Number(!field[y][x]);
 
     drawField(fieldWrapper, field, cellClickHandler);
   };
@@ -72,7 +77,14 @@ export function createGameOfLife(
       //    - остановить таймер
       //    - вывести сообщение
       field = getNextState(field);
+
       drawField(fieldWrapper, field, cellClickHandler);
+      const fieldThree = getNextState(field);
+      const newField = getNextState(fieldThree);
+      if (newField.toString() === field.toString()) {
+        stopGame();
+      }
+
       if (!isAnyoneAlive(field)) {
         // eslint-disable-next-line no-alert
         alert("Death on the block");

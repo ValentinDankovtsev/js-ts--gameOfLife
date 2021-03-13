@@ -47,7 +47,7 @@ export function drawField(
     const x = clickedElement.getAttribute("data-x");
 
     const y = clickedElement.getAttribute("data-y");
-    if (Number(x) >= 0 && Number(y) >= 0 && clickedElement.tagName === "TD") {
+    if (x && y && clickedElement.tagName === "TD") {
       onCellClick(Number(x), Number(y));
     }
   });

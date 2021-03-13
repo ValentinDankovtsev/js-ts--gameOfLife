@@ -12,4 +12,4 @@ const gameWrapper2 = document.createElement("div");
 
 document.body.appendChild(gameWrapper2);
 
-createGameOfLife(10, 10, gameWrapper2);
+createGameOfLife(undefined, undefined, gameWrapper2);
