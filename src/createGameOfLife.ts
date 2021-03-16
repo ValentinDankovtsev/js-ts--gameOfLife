@@ -2,9 +2,11 @@
 /* eslint-disable func-names */
 /* eslint-disable no-param-reassign */
 
+import { createField } from "./createField";
 import { drawField } from "./drawField";
 import { getNextState } from "./getNextState";
 import { isAnyoneAlive } from "./isAnyoneAlive";
+import { transformField } from "./transormField";
 
 /**
  * Создание игры Жизнь
@@ -41,9 +43,7 @@ export function createGameOfLife(
   ) as HTMLInputElement;
   // const inputSize = htmlElement.querySelector(".inputSize");
   // Создать поле заданного размера
-  let field = Array.from({ length: sizeY }).map(
-    () => Array.from({ length: sizeX }).fill(0) as number[]
-  );
+  let field = createField(sizeX, sizeY);
 
   const cellClickHandler = (x: number, y: number) => {
     field[y][x] = Number(!field[y][x]);
@@ -76,12 +76,13 @@ export function createGameOfLife(
       // - если живых клеток нет
       //    - остановить таймер
       //    - вывести сообщение
-      field = getNextState(field);
+      const currentField = JSON.parse(JSON.stringify(field));
+      field = getNextState(currentField);
+      const nextField = getNextState(field);
+      const transformedField = transformField(field, nextField);
+      drawField(fieldWrapper, transformedField, cellClickHandler);
 
-      drawField(fieldWrapper, field, cellClickHandler);
-      const fieldThree = getNextState(field);
-      const newField = getNextState(fieldThree);
-      if (newField.toString() === field.toString()) {
+      if (nextField.toString() === currentField.toString()) {
         stopGame();
       }
 
@@ -99,14 +100,16 @@ export function createGameOfLife(
       startGame();
     });
   }
-
+  const inputX = htmlElement.querySelector("#numberX") as HTMLInputElement;
+  const inputY = htmlElement.querySelector("#numberY") as HTMLInputElement;
   const butField = htmlElement.querySelector(".butField");
   butField?.addEventListener("click", () => {
-    const inputX = htmlElement.querySelector("#numberX") as HTMLInputElement;
-    const inputY = htmlElement.querySelector("#numberY") as HTMLInputElement;
     sizeX = Number(inputX.value);
     sizeY = Number(inputY.value);
-    createGameOfLife(sizeX, sizeY, htmlElement);
+
+    field = createField(sizeX, sizeY, field);
+
+    drawField(fieldWrapper, field, cellClickHandler);
   });
 
   button.addEventListener("click", () => {
@@ -115,5 +118,23 @@ export function createGameOfLife(
     } else {
       stopGame();
     }
+  });
+
+  inputX.addEventListener("keypress", (e) => {
+    const char = e.key;
+    if (char !== "" && !char.match(/[0-9]/)) {
+      e.preventDefault();
+      return false;
+    }
+    return char;
+  });
+
+  inputY.addEventListener("keypress", (e) => {
+    const char = e.key;
+    if (char !== "" && !char.match(/[0-9]/)) {
+      e.preventDefault();
+      return false;
+    }
+    return char;
   });
 }

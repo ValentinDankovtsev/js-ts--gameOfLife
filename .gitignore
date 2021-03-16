@@ -2,3 +2,5 @@ node_modules
 dist
 .eslintignore
 .gitignore
+coverage
+.prettierignore

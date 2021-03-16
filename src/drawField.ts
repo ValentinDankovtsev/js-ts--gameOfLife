@@ -22,6 +22,14 @@ export function drawField(
         class="cell alive" 
          style="background-color:#FA58D0; height:10px; width:10px;"></td>`;
         }
+        if (cell === 2) {
+          return `<td 
+        data-x=${columnIndex}
+        data-y=${rowIndex}
+        class="cell daying" 
+         style="background-color:#0000FF; height:10px; width:10px;"></td>`;
+        }
+
         return `<td 
       data-x=${columnIndex}
       data-y=${rowIndex}
