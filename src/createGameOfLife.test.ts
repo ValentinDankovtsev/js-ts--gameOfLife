@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createGameOfLife } from "./createGameOfLife";
 import { drawField } from "./drawField";
 
@@ -33,7 +32,8 @@ describe("createGameOfLife", () => {
     it("draws field", () => {
       const mockedUseDrawField = drawField as jest.Mock;
       mockedUseDrawField.mockImplementation(
-        (fieldEl: HTMLDivElement, field: number[][]) => {
+        (fieldHTML: HTMLDivElement, field: number[][]) => {
+          const fieldEl = fieldHTML;
           fieldEl.innerHTML = `drawField(${JSON.stringify(field)})`;
         }
       );
@@ -50,7 +50,8 @@ describe("createGameOfLife", () => {
 
       const mockedUseDrawField = drawField as jest.Mock;
       mockedUseDrawField.mockImplementation(
-        (fieldEl, field, cellClickHandler) => {
+        (fieldHTML, field, cellClickHandler) => {
+          const fieldEl = fieldHTML;
           onCellClick = cellClickHandler;
           fieldEl.innerHTML = `drawField(${JSON.stringify(field)})`;
         }
@@ -91,7 +92,8 @@ describe("createGameOfLife", () => {
       let onCellClick!: (x: number, y: number) => void;
       const mockedUseDrawField = drawField as jest.Mock;
       mockedUseDrawField.mockImplementation(
-        (fieldEl: HTMLDivElement, field: number[][], cellClickHandler) => {
+        (fieldHTML: HTMLDivElement, field: number[][], cellClickHandler) => {
+          const fieldEl = fieldHTML;
           onCellClick = cellClickHandler;
           fieldEl.innerHTML = `drawField(${JSON.stringify(field)})`;
         }
@@ -117,7 +119,8 @@ describe("createGameOfLife", () => {
       let onCellClick!: (x: number, y: number) => void;
       const mockedUseDrawField = drawField as jest.Mock;
       mockedUseDrawField.mockImplementation(
-        (fieldEl, field, cellClickHandler) => {
+        (fieldHTML, field, cellClickHandler) => {
+          const fieldEl = fieldHTML;
           onCellClick = cellClickHandler;
           fieldEl.innerHTML = `drawField(${JSON.stringify(field)})`;
         }

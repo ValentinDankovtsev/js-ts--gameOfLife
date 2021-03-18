@@ -10,9 +10,13 @@ import { getNewCellState } from "./getNewCellState";
 export function getNextState(field: number[][]): number[][] {
   return field.map((row, rowIndex) =>
     row.map((cell, cellIndex) => {
-      const an = getNumOfAliveNeighbours(cellIndex, rowIndex, field);
+      const aliveNeighbour = getNumOfAliveNeighbours(
+        cellIndex,
+        rowIndex,
+        field
+      );
       const currentState = getCellState(field, cellIndex, rowIndex);
-      const newState = getNewCellState(currentState, an);
+      const newState = getNewCellState(currentState, aliveNeighbour);
       return newState;
     })
   );

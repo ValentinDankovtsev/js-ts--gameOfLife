@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * отрисовка поля
  * @param field {number[][]} - состояние поля
@@ -17,31 +16,33 @@ export function drawField(
       .map((cell: number, columnIndex: number) => {
         if (cell === 1) {
           return `<td 
-        data-x=${columnIndex}
-        data-y=${rowIndex}
-        class="cell alive" 
-         style="background-color:#FA58D0; height:10px; width:10px;"></td>`;
+                      data-x=${columnIndex} 
+                      data-y=${rowIndex} 
+                      class="cell alive" 
+                      style="background-color:#FA58D0; height:10px; width:10px;">
+                  </td>`;
         }
         if (cell === 2) {
           return `<td 
-        data-x=${columnIndex}
-        data-y=${rowIndex}
-        class="cell daying" 
-         style="background-color:#0000FF; height:10px; width:10px;"></td>`;
+                      data-x=${columnIndex}
+                      data-y=${rowIndex}
+                      class="cell daying" 
+                      style="background-color:#0000FF; height:10px; width:10px;">
+                  </td>`;
         }
-
         return `<td 
-      data-x=${columnIndex}
-      data-y=${rowIndex}
-      class="cell dead" 
-      style="background-color:#FFFFFF; height:10px; width:10px;"></td>`;
+                      data-x=${columnIndex}
+                      data-y=${rowIndex}
+                      class="cell dead" 
+                      style="background-color:#FFFFFF; height:10px; width:10px;">
+                  </td>`;
       })
       .join("")}</tr>`;
 
   const table = `<table border=1>${field.map(rowIterator).join("")}</table>`;
 
-  // eslint-disable-next-line no-param-reassign
-  htmlElement.innerHTML = table;
+  const htmlEl = htmlElement;
+  htmlEl.innerHTML = table;
 
   const tableOnHTML = htmlElement.querySelector("table");
 
